@@ -1,3 +1,5 @@
+// Variables //
+
 var taskIdCounter = 0;
 
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
@@ -40,6 +42,8 @@ if (isEdit) {
 
 
 };
+
+// Main Body //
 
 var completeEditTask = function(taskName, taskType, taskId) {
     // find the matching task list item
@@ -118,6 +122,9 @@ var createTaskEl = function(taskDataObj) {
     taskIdCounter++;
   };
 
+  // Handler section //
+
+
   var taskButtonHandler = function(event) {
     // get target element from event
     var targetEl = event.target;
@@ -189,7 +196,7 @@ var dragTaskHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
       event.preventDefault();
-      
+      taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
     }
   };
   var dropTaskHandler = function(event) {
@@ -208,9 +215,18 @@ var dragTaskHandler = function(event) {
       else if (statusType === "tasks-completed") {
         statusSelectEl.selectedIndex = 2;
       }
-
+      dropZoneEl.removeAttribute("style");
       dropZoneEl.appendChild(draggableElement);
   };
+
+  var dragLeaveHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        taskListEl.removeAttribute("style");
+}
+  }
+
+// Event Listener Section //
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 
@@ -223,3 +239,5 @@ pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 
 pageContentEl.addEventListener("drop", dropTaskHandler);
+
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
